@@ -1,27 +1,20 @@
 "use client";
 
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
-
 export default function FileUploader({ onFileUpload }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (file.type === "application/pdf") {
-      const reader = new FileReader();
-      reader.onload = () => onFileUpload(reader.result);
-      reader.readAsDataURL(file);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      onFileUpload(fileUrl);
     }
-  }, [onFileUpload]);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "application/pdf",
-    onDrop
-  });
+  };
 
   return (
-    <div {...getRootProps()} className="border-dashed border-2 p-6 rounded-md text-center cursor-pointer bg-gray-100">
-      <input {...getInputProps()} />
-      <p>Drag & drop a PDF here, or click to select one</p>
+    <div className="p-20 border border-dashed border-gray-400 text-center">
+      <input type="file" accept="application/pdf" onChange={handleFileChange} className="hidden" id="file-upload" />
+      <label htmlFor="file-upload" className="cursor-pointer text-blue-500 text-lg" >
+        Click to upload a PDF
+      </label>
     </div>
   );
 }

@@ -1,22 +1,23 @@
 "use client";
 
+import { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
 export default function SignaturePad({ onSave }) {
-  let sigCanvas = null;
+  const sigPadRef = useRef(null);
+
+  const saveSignature = () => {
+    if (sigPadRef.current) {
+      const signatureData = sigPadRef.current.toDataURL();
+      onSave(signatureData);
+    }
+  };
 
   return (
-    <div className="p-4">
-      <SignatureCanvas
-        ref={(ref) => (sigCanvas = ref)}
-        penColor="black"
-        canvasProps={{ width: 400, height: 200, className: "border border-gray-400" }}
-      />
-      <button className="bg-green-500 text-white px-4 py-2 mt-2" onClick={() => onSave(sigCanvas.toDataURL())}>
+    <div className="border p-4 mt-4">
+      <SignatureCanvas ref={sigPadRef} canvasProps={{ className: "signature-canvas w-full h-40 border" }} />
+      <button className="mt-2 bg-green-500 px-4 py-2 rounded text-white" onClick={saveSignature}>
         Save Signature
-      </button>
-      <button className="bg-red-500 text-white px-4 py-2 mt-2 ml-2" onClick={() => sigCanvas.clear()}>
-        Clear
       </button>
     </div>
   );
