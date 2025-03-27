@@ -10,7 +10,7 @@ export default function SignaturePad({ onSave }) {
       <SignatureCanvas
         ref={(ref) => (sigCanvas = ref)}
         penColor="black"
-        canvasProps={{ width: 400, height: 200, className: "border border-gray-400" }}
+        canvasProps={{ width: 400, height: 200, className: "border border-gray-300" }}
       />
       <button className="bg-green-500 text-white px-4 py-2 mt-2" onClick={() => onSave(sigCanvas.toDataURL())}>
         Save Signature
