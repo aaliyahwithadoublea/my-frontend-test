@@ -1,20 +1,38 @@
 "use client";
 
+import { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+
 export default function FileUploader({ onFileUpload }) {
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+  const onDrop = useCallback((acceptedFiles) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
       const fileUrl = URL.createObjectURL(file);
       onFileUpload(fileUrl);
     }
-  };
+  }, [onFileUpload]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "application/pdf",
+    multiple: false,
+  });
 
   return (
-    <div className="p-20 border border-dashed border-gray-400 text-center">
-      <input type="file" accept="application/pdf" onChange={handleFileChange} className="hidden" id="file-upload" />
-      <label htmlFor="file-upload" className="cursor-pointer text-blue-500 text-lg" >
-        Click to upload a PDF
-      </label>
+    <div
+      {...getRootProps()}
+      className={`p-20 border border-dashed text-center cursor-pointer transition ${
+        isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-400 bg-gray-100"
+      }`}
+    >
+      <input {...getInputProps()} className="hidden" />
+      {isDragActive ? (
+        <p className="text-blue-600 font-semibold">Drop the file here...</p>
+      ) : (
+        <label className="cursor-pointer text-blue-500">
+          Drag & drop a PDF here, or <span className="font-semibold">click to upload</span>
+        </label>
+      )}
     </div>
   );
 }
