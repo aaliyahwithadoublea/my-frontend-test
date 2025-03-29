@@ -1,57 +1,55 @@
-Frontend Technical Assessment - Document Signer & Annotation Tool
-Overview
-This technical assessment is designed to evaluate your skills in building interactive, modern web applications using Next.js. You'll be creating a single-page document signer and annotation tool that allows users to work with PDF documents.
+Document Annotation Tool
+Setup and Running Instructions
 
-Requirements
-Core Functionality
-Document Upload
+Prerequisites
+Ensure you have the following installed on your system:
+1. Node.js (>= 14.x)
+2. npm or yarn
 
-Users should be able to upload PDF documents
-Implement drag-and-drop functionality and/or file selection dialog
-Display uploaded document in the viewport
-Annotation Features
+Installation
+Clone the repository:
+git clone https://github.com/aaliyahwithadoublea/my-frontend-test.git
+cd /my-frontend-test
 
-Implement the following annotation capabilities:
-Highlight text with customizable colors
-Underline text with customizable colors
-Add comments attached to specific parts of the document
-Draw signatures anywhere on the document
-Document Export
+Install dependencies:
+npm install
+or
 
-Allow users to export the annotated document as a PDF
-All annotations and signatures must be properly embedded in the exported PDF
-Exported document should maintain the quality of the original
-Technical Requirements
-Use Next.js as your framework
-Implement a single-page application (SPA) design where all actions occur without page reloads
-Create a responsive design that works well on different screen sizes
-Ensure the application has a clean, intuitive, and professional UI/UX
-UI/UX Requirements
-Design a sleek, modern interface with clear visual hierarchy
-Implement intuitive controls for all annotation tools
-Create smooth transitions between different states of the application
-Provide appropriate feedback for user actions (loading states, success/error messages)
-Evaluation Criteria
-Your submission will be evaluated based on:
+yarn install
 
-Functionality - Does the application meet all the requirements?
-Code Quality - Is your code well-structured, readable, and maintainable?
-UI/UX Design - Is the interface intuitive, responsive, and visually appealing?
-Performance - Does the application handle operations efficiently?
-Best Practices - Do you follow modern web development best practices?
-Submission Guidelines
-Fork this repository
-Implement your solution
-Create a README with:
-Setup and running instructions
-Any libraries or tools you used and why
-Any challenges you faced and how you solved them
-Any features you would add if you had more time
-Submit a pull request or send us a link to your repository
-Time Allocation
-You have three days to complete this assessment. We estimate it should take approximately 8-10 hours of focused work.
+Running the Application
+To start the development server:
+npm run dev
+or
 
-Questions
-If you have any questions or need clarification, please reach out to dev.ritease@gmail.com.
+yarn dev
+Then, open http://localhost:3000 in your browser.
 
-Good luck!
+Libraries and Tools Used
+1. React.js: For building the UI and managing state.
+2. pdf-lib: To modify and embed annotations and signatures into PDF files.
+3. react-signature-canvas: To capture user-drawn signatures.
+4. Tailwind CSS: For styling components.
+
+Challenges Faced and Solutions
+1. Embedding Signatures in the Exported PDF
+Initially, signatures were only displayed on the UI but not embedded in the exported file.
+Solution: Used pdf-lib to convert signatures to image data and draw them on the correct page coordinates.
+
+2. Handling PDF Parsing Errors
+Encountered errors when loading and modifying PDFs.
+Solution: Ensured the PDF file was correctly fetched as an arrayBuffer before processing.
+
+3. Text Selection for Annotation
+Difficulty in capturing selected text accurately.
+Solution: Used event listeners and PDF.js text layer to track selections.
+
+Future Improvements
+1. Multi-page Annotation Support: Enable annotations and signatures on multiple pages, not just the first.
+
+2. Different Annotation Types: Support for shapes, freehand drawing, and sticky notes.
+
+3. Save & Load Annotations: Implement a feature to store and reload annotations for editing later.
+
+4. User Authentication: Allow users to save and retrieve annotated documents from the cloud.
+
