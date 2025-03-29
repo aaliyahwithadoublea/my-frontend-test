@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 
-export default function ExportButton({ fileUrl, annotations, signature }) {
+export default function ExportButton({ fileUrl, annotations }) {
   const [loading, setLoading] = useState(false);
 
   const exportPdf = async () => {
@@ -14,24 +14,33 @@ export default function ExportButton({ fileUrl, annotations, signature }) {
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];
 
-      // Add annotations
-      annotations.forEach(({ type, color }) => {
-        firstPage.drawRectangle({
-          x: 50,
-          y: 500,
-          width: 100,
-          height: 20,
-          color: color,
-        });
+      annotations.forEach(({ type, color, text, position }) => {
+        if (!position) return;
+      
+        const { x, y, width, height } = position;
+        const pdfHeight = firstPage.getHeight(); // PDF height reference
+      
+        console.log("Applying annotation:", { x, y, width, height });
+      
+        if (type === "highlight") {
+          firstPage.drawRectangle({
+            x,
+            y: pdfHeight - y - height, // Convert Y-coordinate correctly
+            width,
+            height,
+            color: rgb(1, 1, 0, 0.3), // Transparent yellow
+          });
+        } else if (type === "underline") {
+          firstPage.drawLine({
+            start: { x, y: pdfHeight - y - 2 },
+            end: { x: x + width, y: pdfHeight - y - 2 },
+            thickness: 1,
+            color: rgb(1, 0, 0), // Red underline
+          });
+        }
       });
+      
 
-      // Add signature
-      if (signature) {
-        const signatureImage = await pdfDoc.embedPng(signature);
-        firstPage.drawImage(signatureImage, { x: 100, y: 450, width: 100, height: 50 });
-      }
-
-      // Save the PDF
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
