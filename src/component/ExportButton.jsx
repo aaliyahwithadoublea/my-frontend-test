@@ -18,24 +18,24 @@ export default function ExportButton({ fileUrl, annotations }) {
         if (!position) return;
       
         const { x, y, width, height } = position;
-        const pdfHeight = firstPage.getHeight(); // PDF height reference
+        const pdfHeight = firstPage.getHeight();
       
         console.log("Applying annotation:", { x, y, width, height });
       
         if (type === "highlight") {
           firstPage.drawRectangle({
             x,
-            y: pdfHeight - y - height, // Convert Y-coordinate correctly
+            y: pdfHeight - y - height, 
             width,
             height,
-            color: rgb(1, 1, 0, 0.3), // Transparent yellow
+            color: rgb(1, 1, 0, 0.3),
           });
         } else if (type === "underline") {
           firstPage.drawLine({
             start: { x, y: pdfHeight - y - 2 },
             end: { x: x + width, y: pdfHeight - y - 2 },
             thickness: 1,
-            color: rgb(1, 0, 0), // Red underline
+            color: rgb(1, 0, 0), 
           });
         }
       });
