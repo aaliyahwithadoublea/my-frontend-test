@@ -1,13 +1,17 @@
-import "./styles/globals.css"; 
+import "./styles/globals.css";
+import { ReactNode } from "react";
+import ToastContainer from "../component/Toast";
 
-export default function RootLayout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: LayoutProps) {
   return (
-    <html lang="en">
-      <body className="p-6">
-        <div className="max-w-4xl mx-auto bg-white shadow-md p-4 rounded-md">
-          <h1 className="text-2xl font-bold text-center">Document Signer & Annotation Tool</h1>
-          {children}
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
+        {children}
+        <ToastContainer />
       </body>
     </html>
   );
